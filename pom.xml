@@ -133,7 +133,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.sergio.openhouse/com.sergio.openhouse.HelloApplication</mainClass>
+                            <mainClass>com.sergio.openhouse/com.sergio.openhouse.AiApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

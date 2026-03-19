@@ -7,6 +7,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
@@ -14,7 +15,10 @@ import java.util.*;
 
 import java.util.stream.Collectors;
 
-public class HelloController implements Initializable {
+public class AiController implements Initializable {
+
+    @FXML
+    private Pane pane;
 
      @FXML
      public TextArea textArea;
@@ -54,6 +58,7 @@ public class HelloController implements Initializable {
         scrollPane.setPannable(true);
         scrollPane.setFitToWidth(true);
 
+
         chatContainer.needsLayoutProperty().addListener((obs, oldVal, newVal) -> {
             if (!newVal) {
                 scrollPane.setVvalue(1.0);
@@ -66,7 +71,6 @@ public class HelloController implements Initializable {
             scrollPane.setVvalue(vvalue - deltaY / chatContainer.getHeight());
         });
 
-        addBubble("=== Asistente Vocacional IA (Java) ===", false);
         addBubble("Escribe una pregunta o tus intereses (Ej: programación, videojuegos, ciberseguridad, IA/ML)", false);
 
 
@@ -79,7 +83,7 @@ public class HelloController implements Initializable {
                     AsistenteVocacionalIA.Doc match = faq.bestMatch(query);
                     String sugerencia = rec.recomendar(query);
 
-                    addBubble(match.text, false);
+                    addBubble(match.title + "\n" + match.text, false);
                     addBubble("💡 Sugerencia: " + sugerencia, false);
 
                     textArea.clear();
@@ -131,25 +135,76 @@ public class HelloController implements Initializable {
 
                 new Doc("¿Qué es Programación?",
 
-                        "Programar es dar instrucciones a una computadora para resolver problemas. " +
-
-                                "En ciencias de cómputos aprendes a diseñar algoritmos, estructuras de datos y a construir software."),
+                        "La programación es el arte y la ciencia de crear secuencias de instrucciones (código) para que una computadora realice tareas específicas. " +
+                                "Es el lenguaje que permite la automatización, el desarrollo de software y la resolución de problemas complejos mediante la lógica algorítmica. " +
+                                "Al aprender a programar, dominas herramientas como Python, Java o C++ para transformar ideas en aplicaciones funcionales que impactan al mundo digital." +
+                                "\n\nEn ciencias de cómputos aprendes a diseñar algoritmos, estructuras de datos y a construir software." +
+                                "\n\nCursos típicos: Estructuras de Datos, Sistemas Operativos."
+                ),
 
                 new Doc("¿Qué es Ciencia de Datos?",
 
-                        "Ciencia de datos combina estadística, programación y análisis para encontrar patrones y hacer predicciones con datos."),
+                        "Ciencias de datos integra la computación con la estadística matemática para extraer conocimiento " +
+                                "estratégico de grandes volúmenes de datos (Big Data). El estudiante aprenderá a procesar " +
+                                "información, identificar patrones mediante minería de datos y construir modelos predictivos " +
+                                "fundamentales para la toma de decisiones en la industria tecnológica y científica." +
+                                "\n\nIntereses: Datos, Estadística, Análisis, Visualización, Graficas, Predicciones."
+                ),
 
                 new Doc("¿Qué es IA / Machine Learning?",
 
-                        "La IA permite a las computadoras aprender de datos. Machine Learning entrena modelos para clasificar, predecir o recomendar."),
+                        "La Inteligencia Artificial se enfoca en el desarrollo de sistemas capaces de emular procesos " +
+                                "cognitivos humanos. El currículo cubre desde redes neuronales y procesamiento de lenguaje " +
+                                "natural hasta aprendizaje reforzado, permitiendo a los estudiantes diseñar soluciones " +
+                                "autónomas y sistemas inteligentes de vanguardia." +
+                        "\n\nIntereses: Matemáticas, Algoritmos, Robótica, IA generativa, Modelos, Redes Neuronales."
+                ),
 
                 new Doc("¿Qué es Ciberseguridad?",
 
-                        "Ciberseguridad protege sistemas, redes y datos contra ataques. Incluye criptografía, auditorías y respuesta a incidentes."),
+                        "Dedicada a la protección de infraestructuras críticas, sistemas y datos. Esta área de estudio " +
+                                "aborda la criptografía, la seguridad en redes, la auditoría de sistemas y la respuesta a " +
+                                "incidentes. Los estudiantes se forman en la detección de vulnerabilidades y la implementación " +
+                                "de protocolos de defensa robustos contra amenazas digitales globales." +
+                        "\n\nIntereses: Seguridad, Hackers (éticos), Redes, Misterios, Criptografia, Proteccion."
+                ),
 
                 new Doc("¿Qué es Desarrollo de Videojuegos?",
 
-                        "Desarrollo de videojuegos integra programación, gráficos, física y diseño para crear experiencias interactivas.")
+                        "Esta disciplina integra la informática avanzada, la física computacional y la inteligencia " +
+                                "artificial para la creación de entornos interactivos y sistemas de simulación complejos. " +
+                                "El programa capacita al estudiante en el uso de motores de desarrollo líderes en la industria " +
+                                "como Unity y Unreal Engine, profundizando en la optimización de recursos de hardware, " +
+                                "arquitectura de sistemas multijugador y el diseño de mecánicas de juego innovadoras." +
+                                "\n\nIntereses: Juegos, Creatividad, Storytelling, Física, Motores, Unity, Unreal. "
+                ),
+
+                new Doc("¿Qué es Ingeniería de Software?",
+                        "Se centra en la aplicación de un enfoque sistemático y disciplinado al desarrollo, operación " +
+                                "y mantenimiento de software de gran escala. El curso prepara al estudiante en metodologías " +
+                                "ágiles, diseño de sistemas distribuidos y control de calidad, asegurando la creación de " +
+                                "productos tecnológicos confiables y competitivos en el mercado global." +
+                                "\n\nIntereses: Resolver Problemas, Trabajo En Equipo, Diseño De Sistemas, Software, Aplicaciones, Sistemas, Arquitectura, Backend, Frontend."
+                ),
+
+                new Doc("¿Qué es Desarrollo Web?",
+                        "Se enfoca en la ingeniería de plataformas digitales modernas. Abarca tanto el desarrollo del " +
+                                "lado del cliente (Frontend) como del servidor (Backend), profundizando en protocolos de " +
+                                "comunicación, gestión de bases de datos y la arquitectura de aplicaciones en la nube para " +
+                                "garantizar experiencias de usuario óptimas y seguras." +
+                                "\n\nIntereses: Diseño, Creatividad, Emprendimiento, Web y apps, Paginas, Frontend, Backend, Fullstack."
+                ),
+
+                new Doc("¿Qué es Computación Gráfica y Realidad Virtual (VR/AR)",
+                        "Esta especialidad combina matemáticas avanzadas y física para la generación de imágenes y " +
+                                "entornos tridimensionales mediante computadora. Los estudiantes exploran el renderizado, " +
+                                "la visualización científica y el desarrollo de sistemas de realidad virtual y aumentada " +
+                                "aplicados a la ingeniería, la medicina y el entrenamiento especializado." +
+                                "\n\nIntereses: Graficos, Animacion, Realidad Virtual, 3D, Arte Digital."
+
+                )
+
+
 
         );
 
@@ -301,7 +356,9 @@ public class HelloController implements Initializable {
 
                 this.docs = corpus;
 
-                tfidf.fit(corpus.stream().map(d -> d.text).collect(Collectors.toList()));
+                tfidf.fit(corpus.stream()
+                        .map(d -> d.title + " " + d.text)
+                        .collect(Collectors.toList()));
 
             }
 
@@ -317,8 +374,7 @@ public class HelloController implements Initializable {
 
                 for (int i = 0; i < docs.size(); i++) {
 
-                    Map<String, Double> dVec = tfidf.tfidfVector(docs.get(i).text);
-
+                    Map<String, Double> dVec = tfidf.tfidfVector(docs.get(i).title + " " + docs.get(i).text);
                     double s = TfIdf.cosine(qVec, dVec);
 
                     if (s > bestScore) {
@@ -355,21 +411,36 @@ public class HelloController implements Initializable {
 
                 add("matematica", Map.of("IA/ML", 3, "CienciaDatos", 3, "Backend", 1));
 
-                add("estadistica", Map.of("CienciaDatos", 3, "IA/ML", 2));
+                add("estadistica", Map.of("CienciaDatos", 3, "IA/ML", 2, "graficas", 1));
 
-                add("videojuegos", Map.of("Videojuegos", 4, "IA/ML", 1, "Backend", 1));
+                add("videojuegos", Map.of("Videojuegos", 4, "IA/ML", 2, "programación", 3));
 
                 add("seguridad", Map.of("Ciberseguridad", 4, "Backend", 1));
 
                 add("redes", Map.of("Ciberseguridad", 3, "Backend", 2));
 
-                add("web", Map.of("Backend", 3));
+                add("web", Map.of("Frontend", 3, "Backend", 3, "Fullstack", 3));
 
                 add("datos", Map.of("CienciaDatos", 3, "IA/ML", 2));
 
                 add("robotica", Map.of("IA/ML", 3));
 
-                add("grafica", Map.of("Videojuegos", 3));
+                add("grafica", Map.of("Videojuegos", 3, "Frontend", 3));
+
+                add("automatizacion", Map.of("IA/ML", 3, "Sistemas", 2, "Matemática", 3));
+
+                add("3D", Map.of("VR/AR", 3, "Videojuegos", 3, "Graficas", 3));
+
+                add("animacion", Map.of("Videojuegos", 3, "VR/AR", 3, "Graficas", 3));
+
+                add("python", Map.of("CienciaDatos", 3, "IA/ML", 3, "Backend", 2));
+
+                add("java", Map.of("Software", 3, "Backend", 3, "Programacion", 3));
+
+                add("unity", Map.of("Videojuegos", 3, "VR/AR", 2, "Graficas", 3));
+
+                add("sql", Map.of("Backend", 3, "CienciaDatos", 2, "Fullstack", 2));
+
 
             }
 
@@ -409,13 +480,13 @@ public class HelloController implements Initializable {
 
                 }
 
-                // Top 2 recomendaciones
+                // Top 3 recomendaciones
 
                 return acumulado.entrySet().stream()
 
                         .sorted((a,b) -> Integer.compare(b.getValue(), a.getValue()))
 
-                        .limit(2)
+                        .limit(3)
 
                         .map(e -> e.getKey() + " (puntuación: " + e.getValue() + ")")
 
