@@ -97,7 +97,7 @@ public class HelloController implements Initializable {
         // Refined CSS styling
         String style = "-fx-padding: 10 15 10 15; -fx-background-radius: 20; -fx-font-size: 14px; ";
         if (isUser) {
-            style += "-fx-background-color: #ffcd02; -fx-text-fill: white;";
+            style += "-fx-background-color: #d6ad06; -fx-text-fill: white;";
         } else {
             style += "-fx-background-color: #069c06; -fx-text-fill: white;";
         }
