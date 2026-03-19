@@ -50,29 +50,41 @@ public class HelloController implements Initializable {
         AsistenteVocacionalIA.RetrievalQA faq = new AsistenteVocacionalIA.RetrievalQA(AsistenteVocacionalIA.CORPUS);
         AsistenteVocacionalIA.RecomendadorRutas rec = new AsistenteVocacionalIA.RecomendadorRutas();
 
-        // Welcome message using bubbles instead of chatLog.appendText
-        addBubble("=== Asistente Vocacional IA (Java) ===", false);
-        addBubble("Escribe una pregunta o tus intereses (escribe 'salir' para terminar).", false);
+        // UI Configuration
+        scrollPane.setPannable(true);
+        scrollPane.setFitToWidth(true);
 
-        // 2. Keyboard Listener
+        chatContainer.needsLayoutProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal) {
+                scrollPane.setVvalue(1.0);
+            }
+        });
+
+        scrollPane.getContent().setOnScroll(scrollEvent -> {
+            double deltaY = scrollEvent.getDeltaY() * 2.5; // Adjust this for speed
+            double vvalue = scrollPane.getVvalue();
+            scrollPane.setVvalue(vvalue - deltaY / chatContainer.getHeight());
+        });
+
+        addBubble("=== Asistente Vocacional IA (Java) ===", false);
+        addBubble("Escribe una pregunta o tus intereses (Ej: programación, videojuegos, ciberseguridad, IA/ML)", false);
+
+
         textArea.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 String query = textArea.getText().trim();
                 if (!query.isEmpty()) {
-                    // User message (Right)
                     addBubble(query, true);
 
-                    // AI Processing
                     AsistenteVocacionalIA.Doc match = faq.bestMatch(query);
                     String sugerencia = rec.recomendar(query);
 
-                    // AI Response (Left)
                     addBubble(match.text, false);
                     addBubble("💡 Sugerencia: " + sugerencia, false);
 
                     textArea.clear();
                 }
-                event.consume(); // Prevents newline in TextArea
+                event.consume();
             }
         });
     }
@@ -80,30 +92,26 @@ public class HelloController implements Initializable {
     private void addBubble(String message, boolean isUser) {
         Label label = new Label(message);
         label.setWrapText(true);
-        label.setMaxWidth(700); // Slightly wider for better reading
+        label.setMaxWidth(500);
 
         // Refined CSS styling
         String style = "-fx-padding: 10 15 10 15; -fx-background-radius: 20; -fx-font-size: 14px; ";
         if (isUser) {
-            style += "-fx-background-color: #0084FF; -fx-text-fill: white;";
+            style += "-fx-background-color: #ffcd02; -fx-text-fill: white;";
         } else {
-            style += "-fx-background-color: #E9E9EB; -fx-text-fill: black;";
+            style += "-fx-background-color: #069c06; -fx-text-fill: white;";
         }
         label.setStyle(style);
-
         HBox container = new HBox(label);
         container.setPadding(new javafx.geometry.Insets(5, 10, 5, 10));
         container.setAlignment(isUser ? javafx.geometry.Pos.CENTER_RIGHT : javafx.geometry.Pos.CENTER_LEFT);
 
         chatContainer.getChildren().add(container);
 
-        // Auto-scroll hack: wait for UI to render then scroll to bottom
-        javafx.application.Platform.runLater(() -> scrollPane.setVvalue(1.0));
+        javafx.application.Platform.runLater(() -> textArea.requestFocus());
     }
 
     static class AsistenteVocacionalIA {
-
-
 
         // --- Pequeño corpus de FAQs (puedes agregar más) ---
 
